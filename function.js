@@ -1,167 +1,67 @@
-//Function 함수
-//-fundamental building block in the program//기본적인 빌딩블럭
-//-subprogram can be used muliple times //서브프로그램이라고 불리며 여러번 재사용이 가능하다
-//-performs a task or calculates a value//한가지태스크나 어떠한 값을 계산하기위해 쓰임
+//함수
+//function() {}
+//또는
+//() => {}    //이것은 익명함수... 딱 한번만 쓸때 쓰임
 
-//1. Function declaration
-//function name(param1, param2) { body... return; }
-//one function === one thing //하나의 함수는 한가지의 일만 하도록 만들어야함.
-//naming: doSomething, command, verb// 동사형태로 이름을 지정
-//e.g. createCardAndPoint -> createCard, createPoint
-//function is object in JS
-function printHello() {
+//함수에 이름넣어주기
+//function a() {}    //함수선언문 !! 세미콜론 없음!!!
+//cosnt b = function() {};    //함수표현식!!
+//cosnt c = () => {};  //화살표함수
+
+function a() {} //함수를 선언한 다음에
+a(); //함수를 호출(call)한다고 말함.
+//print : ( 없음 )
+
+//console.log , parseInt 또한 함수라 명한다.
+function a() {
   console.log("Hello");
+  console.log("Function");
 }
-printHello();
+a();
+//print :
+// Hello
+// function
+// Hello
+// function
 
-function log(message) {
-  console.log(message);
-}
-log("Hello@");
-log(1234);
-
-//2.Parameters
-//premitive parmeters: passed by value
-//object prameters: passed by reference
-function changeName(obj) {
-  obj.name = "coder";
-}
-const ellie = { name: "ellie" };
-changeName(ellie);
-console.log(ellie);
-
-//3.Default parameters (added in ES6)
-function showMessage(message, from = "unknown") {
-  console.log(`${message} by ${from}`);
-}
-showMessage("Hi");
-
-//4.Rest parameters (added in ES6)
-function printAll(...args) {
-  //...배열형태
-  for (let i = 0; i < args.length; i++) {
-    console.log(args[i]);
-  }
-
-  for (const arg of args) {
-    console.log(arg);
-  }
-  //더 간단하게
-  args.forEach(arg => console.log(arg));
-}
-printAll("dream", "cording", "ellie");
-
-//5. Local scope
-//밖에서는 안이 보이지 않고, 안에서만 밖을 볼수있다. 유리창틴트효과처럼,
-let globalMessage = "global"; //global variable
-function printMessage() {
-  let message = "hello";
-  console.log(message); //local variable 지역변수
-  console.log(globalMessage);
-}
-printMessage();
-
-//6. Return a value
-function sum(a, b) {
-  return a + b;
-}
-const result = sum(1, 2); //3
-console.log(`sum: ${sum(1, 2)}`);
-
-//7.Early return, early exit
-//bad
-function upgradeUser(user) {
-  if (user.point > 10) {
-    //long upgrade logic...
-  }
+//리턴값 (반환값)
+//return에는 항상 undefined 존재함.
+function b() {}
+//두 코드는 동일함
+function c() {
+  return undefined;
 }
 
-//good
-function upgradeUser(user) {
-  if (user.point <= 10) {
+function d() {
+  console.log("d");
+} // 두 코드는 동일함
+function e() {
+  console.log("e");
+  return undefined;
+}
+
+//반환값도 값이므로 다른 식이나 문에 넣어 사용가능하다.
+function f() {
+  return 10;
+}
+console.log(f()); //호출값은 리턴값으로 바꿔준다
+// print : 10
+
+//함수가 함수를 다루는 것 : 고차함수 (중반부 쯤에 다룰 예정)
+
+function g() {
+  return 10;
+}
+const h = g();
+console.log(h);
+//print : 10
+
+//조건부
+function a1() {
+  if (false) {
     return;
   }
-  //long upgrade logic...
+  console.log("실행합니다");
 }
-
-//First-class function
-//functions are treated like any other variable
-//can be assigned as a value to variable
-//can be passed as an argument to other functions.
-//can be returned by another function
-
-//1. Function expresstion
-//a function declaration can be called earlier than it is defiend.(hosted)
-//a function expression is created whe the execution reaches it.
-const print = function () {
-  //anonymous function
-  console.log("print");
-};
-print();
-const printAgain = print;
-printAgain();
-const sumAgain = sum;
-console.log(sumAgain(1, 3));
-
-//2. Callback function using function expression
-function randomQuiz(answer, printYes, printNo) {
-  if (answer === "love you") {
-    printYes();
-  } else {
-    printNo();
-  }
-}
-//anonymous function
-const printYes = function () {
-  console.log("yes!");
-};
-
-//named function
-//better debugging in debugger's stack traces
-//recursions
-const printNo = function print() {
-  console.log("No!");
-};
-randomQuiz("wrong", printYes, printNo);
-randomQuiz("love you", printYes, printNo);
-
-//Arrow function //함수를 간결하게 만들어줌
-//always anonymous
-
-// const simplePrint = function () {
-//     console.log('simplePrint!');
-// };
-
-const simplePrint = () => console.log("simplePrint!");
-const add = (a, b) => a + b;
-const simpleMultiply = (a, b) => {
-  //do somthing more
-  return a * b;
-};
-
-//IIFE: Immediately Invoked Function Expression
-(function hello() {
-  console.log("IIFE");
-})(); //괄호로 묶기 (함수를 바로 실행하고싶을때)
-
-//Fun quiz time
-//function calculate(command, a, b)
-//command: add, substract, divide, mutiply, remainder
-
-function calculate(command, a, b) {
-  switch (command) {
-    case "add":
-      return a + b;
-    case "substract":
-      return a - b;
-    case "divide":
-      return a / b;
-    case "multiply":
-      return a * b;
-    case "remainder":
-      return a % b;
-    default:
-      throw Error("unkonwn command");
-  }
-}
-console.log(calculate("add", 2, 3));
+a1();
+//print : 실행합니다
