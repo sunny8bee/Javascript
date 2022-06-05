@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>숫자야구</title>
+</head>
+<body>
+    <form id="form">
+        <input type="text" id="input">
+        <button>확인</button>
+    </form>
+    <div id="logs"></div>
+    <script>
+//😉Math.random()활용하기 
+//일반 Math.random 은 0~1 사이값(소수값)으로 나옴. // 0 <= Math.random < 1
+//정수로 변환하기위해서의 절차 
+//	Math.random() * 9  // 0이상 9미만이 된다.// 0 <= Math.random * 9 < 9
+//	1 <= Math.random * 9 + 1 < 10  //1를 더해줘서 1~ 9까지 (1부터 10미만) 소수값으로 나타남.
+//소수점들을 내리는 방법 
+//	Math.floor(Math.random() * 9 + 1) //정수값으로 나옴
+////반올림하는 방법 : Math.round
+
+//🤨숫자 4개를 랜덤하게 어떻게 뽑아볼까 ?  //알고리즘이 필요하닷+_+!//순서도도 알고리즘// 정확하게 빠르게// 
+//	사람이라면 어떻게 했을까 ? _라고생각해보기! 정답은 맞지만 효율성은 떨어진다 : 알고리즘은 나중에 따로 익혀야한다.
+//    숫자 30이 넘어가는 배우는 알고리즘으로하고 30아래는 사람이라면? 이라고 생각하고 짜보자.
+//							🤗반올림 : round // 숫자내림 : floor //숫자올림 : ceil씰🤗
+//		👻 Math.floor(Math.random() * 9 + 1)  // x = {1, 2, 3, 4, 5, 6, 7, 8, 9} 
+//🫤Math.random()은 무작위가 아니다 ? // 암호학적으로 완전한 무작위는 아니기에 보안과 관련된 작업에 쓰일 시 위험.😱
+// 대체하기 위해   👻 Window.crypto.getRandomValues()함수를 사용한다.
+
+        const $input = document.querySelector('#input');
+        const $form = document.querySelector('#form');
+        const $logs = document.querySelector('#logs');
+//👉 랜덤 숫자 4개 나오게하기!
+				const numbers = []; //[1, 2, 3, 4, 5, 6, 7, 8, 9]
+				//단순히 값들만 모아둘때 배열[]사용 , 각각의 값에 이름을 붙여야할 때 객체리터럴 중괄호{}
+				for (let n = 1; n <= 9; n += 1) {  
+					//for문을 whaile문으로 상호 전환시키는 연습하기!!//if문 보면 swich로 바꾸거나 삼항연산자로 바꿔보기연습하자!
+					numbers.push(n + 1);  //반복문은 0부터 시작는 경우가 많아 'n + 1'
+				}
+				const answer = [];// [4]
+				for (let n = 0; n < 4; n += 1) {   // 네 번 반복
+				//const index = Math.floor(Math.random() * 9); //0~8정수1️⃣
+					const index = Math.floor(Math.random() * (9 - n)); //(9 - n)알고리즘의 문제 해결!😍2️⃣
+																							// * (numbers.length - n)로 쓸 수 있다.
+					answer.push(numbers[index]); // 하나 내보내면,
+					numbers.splice(index, 1);    // 하나 빼주기. 4번 반복
+				}      //이 알고리즘엔 문제가 있다!🧐1️⃣
+				//	index : 0  1  2  3  4  5  6  7  8
+				// numbers [1, 5, 6, 7, 8, 9]  // splice...
+				// answer [3, 2, 4, undefined] // index 8을 뽑는다면 구멍이생김 undefined
+				// 끝 값들로 검증하면 좋다.
+				console.log(answer);
+
+				
+    </script>    
+</body>
+</html>
